@@ -47,15 +47,15 @@ namespace DeliveryWebAPI.Controllers
             _mapper = mapper;
         }
 
-
+        [Authorize(Policy = "AdminAccess")]
         [HttpPut("UpdateCategory")]
-        public IActionResult UpdateCategory(int Id, string CategoryName)
+        public async Task<IActionResult> UpdateCategory(int Id, string CategoryName)
         {
-            var category = _adminServices.GetCategoryById(Id);
+            var category =  _adminServices.GetCategoryById(Id);
             if (category != null)
             {
                 category.Name = CategoryName;
-                var result = _adminServices.UpdateCategory(category).Result;
+                var result = await _adminServices.UpdateCategory(category);
                 if (result)
                 {
                    
@@ -68,20 +68,26 @@ namespace DeliveryWebAPI.Controllers
         }
 
 
+        [Authorize(Policy = "AdminAccess")]
         [HttpPost("AddCategory")]
-        public IActionResult AddCategory(string category)
+        public async Task<IActionResult> AddCategoryAsync(string category)
         {
             Category Categoryforadd = new Category { Name = category };
-            _adminServices.AddCategory(Categoryforadd);
-            return Ok();
+            var Result = await _adminServices.AddCategory(Categoryforadd);
+            if (Result)
+            {
+                return Ok();
+            }
+            return NoContent();
         }
 
 
+        [Authorize(Policy = "AdminAccess")]
         [HttpPost("RemoveCategory")]
-        public IActionResult RemoveCategory(int Id)
+        public async Task<IActionResult> RemoveCategory(int Id)
         {
-            var result =_adminServices.RemoveCategoryById(Id);
-            if (result.Result)
+            var result = await _adminServices.RemoveCategoryById(Id);
+            if (result)
             {
                 return Ok(new { Status = "Success", Message = "კატეგორია წამრატებით წაიშალა!" });
             }
@@ -151,19 +157,24 @@ namespace DeliveryWebAPI.Controllers
                 }
             }
             return Unauthorized();
-        } 
-
-
-        [Authorize (Roles ="Admin")]
-        [HttpPut("BlockUser")]
-        public IActionResult Block(string phoneNumber)
-        {
-            _adminServices.BlockUser(phoneNumber);
-            return Ok();
         }
 
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "AdminAccess")]
+        [HttpPut("BlockUser")]
+        public async  Task<IActionResult> Block(string phoneNumber)
+        {
+            var Result=  await _adminServices.BlockUser(phoneNumber);
+            if (Result)
+            {
+                return Ok();
+            }
+            return NoContent();
+        }
+
+
+
+        [Authorize(Policy = "AdminAccess")]
         [HttpPost("PersonalRegistration")]
         public async Task<IActionResult> PersonalRegistion(PersonalRegistrationModel model)
         {
@@ -199,26 +210,39 @@ namespace DeliveryWebAPI.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+
+        [Authorize(Policy = "AdminAccess")]
         [HttpPut("UnblockUser")]
-        public IActionResult Unblock(string phoneNumber)
+        public async Task<IActionResult> Unblock(string phoneNumber)
         {
-            _adminServices.UnblockUser(phoneNumber);
-            return Ok();
+            var Result = await _adminServices.UnblockUser(phoneNumber);
+            if (Result)
+            {
+                return Ok();
+            }
+
+            return NoContent();
 
         }
 
 
-        [Authorize]
+
+        [Authorize(Policy = "AdminAccess")]
         [HttpPut("DeleteUser")]
-        public IActionResult DeleteUser(string phoneNumber)
+        public  async Task<IActionResult> DeleteUserAsync(string phoneNumber)
         {
-            _adminServices.DeleteUser(phoneNumber);
-            return Ok();
+           var Result = await _adminServices.DeleteUser(phoneNumber);
+            if (Result)
+            {
+                return Ok();
+            }
+
+            return NoContent();
         }
 
 
-        [Authorize(Roles = "Admin")]
+
+        [Authorize(Policy = "AdminAccess")]
         [HttpGet("GetActiveUsers")]
         public async Task<IActionResult> GetActiveUsers()
         {
@@ -244,7 +268,8 @@ namespace DeliveryWebAPI.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+
+        [Authorize(Policy = "AdminAccess")]
         [HttpGet("GetBlockedUsers")]
         public IActionResult GetBlockedUsers()
         {

@@ -23,7 +23,7 @@ namespace DeliveryWebAPI.Services.Implementations
 
         public async Task AddProduct(StorageProduct product)
         {
-            await _context.Storage.AddAsync(product);
+            var result= await _context.Storage.AddAsync(product);
             await _context.SaveChangesAsync();
         }
 

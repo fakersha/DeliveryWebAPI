@@ -35,7 +35,7 @@ namespace DeliveryWebAPI.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ingredient",
+                name: "Ingredients",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -44,7 +44,7 @@ namespace DeliveryWebAPI.Domain.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ingredient", x => x.Id);
+                    table.PrimaryKey("PK_Ingredients", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -317,9 +317,9 @@ namespace DeliveryWebAPI.Domain.Migrations
                 {
                     table.PrimaryKey("PK_productsWithIngredients", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_productsWithIngredients_Ingredient_ingredientId",
+                        name: "FK_productsWithIngredients_Ingredients_ingredientId",
                         column: x => x.ingredientId,
-                        principalTable: "Ingredient",
+                        principalTable: "Ingredients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -451,7 +451,7 @@ namespace DeliveryWebAPI.Domain.Migrations
                 name: "OrderStatuses");
 
             migrationBuilder.DropTable(
-                name: "Ingredient");
+                name: "Ingredients");
 
             migrationBuilder.DropTable(
                 name: "Products");

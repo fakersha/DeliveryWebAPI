@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DeliveryWebAPI.Domain\DeliveryWebAPI.Domain.csproj" />
     <ProjectReference Include="..\DeliveryWebAPI.Services\DeliveryWebAPI.Services.csproj" />
   </ItemGroup>
 

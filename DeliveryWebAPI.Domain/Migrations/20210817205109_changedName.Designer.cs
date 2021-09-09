@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliveryWebAPI.Domain.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210817123046_addingredientdable")]
-    partial class addingredientdable
+    [Migration("20210817205109_changedName")]
+    partial class changedName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,7 +48,7 @@ namespace DeliveryWebAPI.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("DeliveryWebAPI.Domain.Models.Ingredient", b =>
@@ -164,7 +164,7 @@ namespace DeliveryWebAPI.Domain.Migrations
 
                     b.HasIndex("productid");
 
-                    b.ToTable("productsWithIngredients");
+                    b.ToTable("ProductsWithIngredients");
                 });
 
             modelBuilder.Entity("DeliveryWebAPI.Domain.Models.StorageProduct", b =>

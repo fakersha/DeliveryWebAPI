@@ -43,7 +43,7 @@ namespace DeliveryWebAPI
             services.AddAutoMapper(typeof(Startup));
 
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GagnoConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BasilConnection")));
 
 
             services.AddCors(options =>

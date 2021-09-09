@@ -14,13 +14,13 @@ namespace DeliveryWebAPI.Services.Abstractions
 
         List<User> GetActiveUsers();
 
-        void DeleteUser(string phoneNumber);
+        Task<bool> DeleteUser(string phoneNumber);
 
-        void UnblockUser(string phoneNumber);
+        Task<bool> UnblockUser(string phoneNumber);
 
-        void BlockUser(string phoneNumber);
+        Task<bool> BlockUser(string phoneNumber);
 
-        void AddCategory(Category category);
+        Task<bool> AddCategory(Category category);
 
         Task<bool> RemoveCategoryById(int Id);
 

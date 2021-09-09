@@ -19,35 +19,67 @@ namespace DeliveryWebAPI.Services.Implementations
             _context = context;
         }
 
-        public void AddCategory(Category category)
+        public async Task<bool> AddCategory(Category category)
         {
             if (category != null)
             {
                 _context.Add(category);
-                _context.SaveChanges();
+
+                var Result = await _context.SaveChangesAsync();
+
+                if (Result > 0)
+                {
+                    return true;
+                }
+
+                return false;
             }
+
+            return false;
         }
 
-        public void BlockUser(string phoneNumber)
+        public async Task<bool> BlockUser(string phoneNumber)
         {
             var blockedUser = _context.Users.FirstOrDefault(user => user.PhoneNumber == phoneNumber);
+
             if (blockedUser != null)
             {
                 blockedUser.IsBlocked = true;
+
                 _context.Update(blockedUser);
-                _context.SaveChanges();
+
+                var Result = await _context.SaveChangesAsync();
+
+                if (Result>0)
+                {
+                    return true;
+                }
+                return false;
             }
+            return false;
         }
 
-        public void DeleteUser(string phoneNumber)
+        public async Task<bool> DeleteUser(string phoneNumber)
         {
             var DeletionUser = _context.Users.FirstOrDefault(user => user.PhoneNumber == phoneNumber);
+
             if (DeletionUser != null)
             {
                 DeletionUser.IsDeleted = true;
+
                 _context.Update(DeletionUser);
-                _context.SaveChanges();
+
+                var Result = await _context.SaveChangesAsync();
+
+                if (Result > 0)
+                {
+                    return true;
+                }
+
+                return false;
             }
+
+            return false;
         }
 
         public List<User> GetActiveUsers()
@@ -67,13 +99,14 @@ namespace DeliveryWebAPI.Services.Implementations
 
         public Category GetCategoryById(int Id)
         {
-            var category = _context.ProductCategories.FirstOrDefault(p => p.Id == Id);
+            var category = _context.Categories.FirstOrDefault(p => p.Id == Id);
             return category;
         }
 
         public User GetUserByNumber(string number)
         {
             var SearchedUser = _context.Users.FirstOrDefault(user => user.PhoneNumber == number);
+
             if (SearchedUser != null)
             {
                 return SearchedUser;
@@ -84,10 +117,10 @@ namespace DeliveryWebAPI.Services.Implementations
 
         public async Task<bool> RemoveCategoryById(int Id)
         {
-            var Category = _context.ProductCategories.FirstOrDefault(o => o.Id == Id);
+            var Category = _context.Categories.FirstOrDefault(o => o.Id == Id);
             if (Category != null)
             {
-                _context.ProductCategories.Remove(Category);
+                _context.Categories.Remove(Category);
                 var result = await _context.SaveChangesAsync();
                 return true;
             }
@@ -95,27 +128,36 @@ namespace DeliveryWebAPI.Services.Implementations
             return false;
         }
 
-        public void UnblockUser(string phoneNumber)
+        public async Task<bool> UnblockUser(string phoneNumber)
         {
             var unblockUser = _context.Users.FirstOrDefault(user => user.PhoneNumber == phoneNumber);
             if (unblockUser != null)
             {
                 unblockUser.IsBlocked = false;
                 _context.Update(unblockUser);
-                _context.SaveChanges();
+                var Result = await _context.SaveChangesAsync();
+                if (Result > 0)
+                {
+                    return true;
+                }
+                return false;
             }
+            return false;
         }
 
         public async Task<bool> UpdateCategory(Category category)
         {
             if (category != null)
             {
-                _context.ProductCategories.Update(category);
+                _context.Categories.Update(category);
+               
                 await _context.SaveChangesAsync();
                 return true;
             }
 
             return false;
         }
+
+      
     }
 }

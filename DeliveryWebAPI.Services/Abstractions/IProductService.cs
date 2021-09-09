@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DeliveryWebAPI.Services.Abstractions
 {
@@ -12,7 +13,7 @@ namespace DeliveryWebAPI.Services.Abstractions
 
         Product GetProductById(int Id);
 
-        void AddProduct(Product product);
+        Task AddProduct(Product product);
 
     }
 }

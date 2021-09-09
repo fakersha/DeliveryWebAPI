@@ -20,6 +20,7 @@ namespace DeliveryWebAPI.Mapper
             CreateMap<User, PersonalRegistrationModel>();
             CreateMap<StorageProductModel, StorageProduct>();
             CreateMap<Product, ProductModel>();
+            CreateMap<CategoryModel, Category>();
 
 
         }

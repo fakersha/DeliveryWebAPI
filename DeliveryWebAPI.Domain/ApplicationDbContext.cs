@@ -25,10 +25,12 @@ namespace DeliveryWebAPI.Domain
 
         public DbSet<Order> Orders { get; set; }
 
-        public DbSet<Category> ProductCategories { get; set; }
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Personal> Personals { get; set; }
 
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<ProductWithIngredients> productsWithIngredients { get; set; }
+        public DbSet<ProductWithIngredients> ProductsWithIngredients { get; set; }
     }
 }

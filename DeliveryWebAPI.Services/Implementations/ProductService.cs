@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DeliveryWebAPI.Services.Implementations
 {
@@ -17,12 +18,12 @@ namespace DeliveryWebAPI.Services.Implementations
             _context = context;
         }
 
-        public void AddProduct(Product product)
+        public async Task AddProduct(Product product)
         {
             try
             {
-                _context.Products.Add(product);
-                _context.SaveChanges();
+               await _context.Products.AddAsync(product);
+               await _context.SaveChangesAsync();
             }
             catch (Exception)
             {

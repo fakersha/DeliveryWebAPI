@@ -27,7 +27,7 @@ namespace DeliveryWebAPI.Services.Implementations
 
         public void AddIngredientsInProduct(ProductWithIngredients productWithIngredients)
         {
-            _context.productsWithIngredients.Add(productWithIngredients);
+            _context.ProductsWithIngredients.Add(productWithIngredients);
             _context.SaveChanges();
         }
 
