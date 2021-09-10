@@ -19,22 +19,38 @@ namespace DeliveryWebAPI.Services.Implementations
             _context = context;
         }
 
-        public void AddIngredient(Ingredient ingredient)
+        public async Task<bool> AddIngredient(Ingredient ingredient)
         {
-            _context.Ingredients.Add(ingredient);
-            _context.SaveChanges();
+            await _context.Ingredients.AddAsync(ingredient);
+            var Result = await _context.SaveChangesAsync();
+            if (Result > 0)
+            {
+                return true;
+            }
+            return false;
         }
 
-        public void AddIngredientsInProduct(ProductWithIngredients productWithIngredients)
+        public async Task<bool> AddIngredientsInProduct(ProductWithIngredients productWithIngredients)
         {
-            _context.ProductsWithIngredients.Add(productWithIngredients);
-            _context.SaveChanges();
+            await _context.ProductsWithIngredients.AddAsync(productWithIngredients);
+            var Result = await _context.SaveChangesAsync();
+            if (Result > 0 )
+            {
+                return true;
+
+            }
+            return false;
         }
 
-        public void AddProduct(Product product)
+        public async Task<bool> AddProduct(Product product)
         {
-            _context.Products.Add(product);
-            _context.SaveChanges();
+            await _context.Products.AddAsync(product);
+            var Result = await _context.SaveChangesAsync();
+            if (Result > 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         public Ingredient FindIngredientById(int Id)

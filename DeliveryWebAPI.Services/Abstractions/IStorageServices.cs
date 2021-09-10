@@ -12,8 +12,8 @@ namespace DeliveryWebAPI.Services.Abstractions
 
         IQueryable<StorageProduct> GetMainStorageProducts();
         IQueryable<StorageProduct> GetBranchStorageProducts(int branchId);
-        Task AddProduct(StorageProduct product);
-        Task DeleteProduct(int productId);
+        Task<bool> AddProduct(StorageProduct product);
+        Task<bool> DeleteProduct(int productId);
 
     }
 }

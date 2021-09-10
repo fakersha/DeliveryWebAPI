@@ -55,8 +55,8 @@ namespace DeliveryWebAPI.Controllers
             if (category != null)
             {
                 category.Name = CategoryName;
-                var result = await _adminServices.UpdateCategory(category);
-                if (result)
+                var Result = await _adminServices.UpdateCategory(category);
+                if (Result)
                 {
                    
                     return Ok(new { Status = "Success", Message = "კატეგორია წამრატებით დააფდეითდა!" });
@@ -86,8 +86,8 @@ namespace DeliveryWebAPI.Controllers
         [HttpPost("RemoveCategory")]
         public async Task<IActionResult> RemoveCategory(int Id)
         {
-            var result = await _adminServices.RemoveCategoryById(Id);
-            if (result)
+            var Result = await _adminServices.RemoveCategoryById(Id);
+            if (Result)
             {
                 return Ok(new { Status = "Success", Message = "კატეგორია წამრატებით წაიშალა!" });
             }
@@ -136,15 +136,15 @@ namespace DeliveryWebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Username);
-                if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+                var User = await _userManager.FindByNameAsync(model.Username);
+                if (User != null && await _userManager.CheckPasswordAsync(User, model.Password))
                 {
-                    var isInRole = await _userManager.IsInRoleAsync(user, "Admin");
-                    if (isInRole)
+                    var IsInRole = await _userManager.IsInRoleAsync(User, "Admin");
+                    if (IsInRole)
                     {
                         //var userRoles = await _userManager.GetRolesAsync(user);
 
-                        var token = await GetToken(user);
+                        var token = await GetToken(User);
                         
                         return Ok(token);
 
@@ -180,8 +180,8 @@ namespace DeliveryWebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var branch = _branchService.GetBranchById(model.BranchId);
-                var role = await _roleManager.FindByIdAsync(model.RoleId);
+                var branch =  _branchService.GetBranchById(model.BranchId);
+                var role = await _roleManager.FindByIdAsync(model.RoleId.ToString());
                 User user = new User()
                 {
                     UserName = model.PhoneNumber,
@@ -192,17 +192,17 @@ namespace DeliveryWebAPI.Controllers
                     Branch = branch
                 };
 
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var Result = await _userManager.CreateAsync(user, model.Password);
 
 
-                if (result.Succeeded)
+                if (Result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, role.Name);
                     return Ok(new { Status = "Success", Message = "User created successfully!" });
                 }
                 else
                 {
-                    return BadRequest(result.Errors);
+                    return BadRequest(Result.Errors);
                 }
             }
 
@@ -273,11 +273,11 @@ namespace DeliveryWebAPI.Controllers
         [HttpGet("GetBlockedUsers")]
         public IActionResult GetBlockedUsers()
         {
-            var blockedUSers = _adminServices.GetBlockedUsers();
+            var BlockedUsers = _adminServices.GetBlockedUsers();
 
-            if (blockedUSers.Count != 0)
+            if (BlockedUsers.Count != 0)
             {
-                var mapedusers = _mapper.Map<List<UserModel>>(blockedUSers);
+                var mapedusers = _mapper.Map<List<UserModel>>(BlockedUsers);
                 return Ok(mapedusers);
             }
 

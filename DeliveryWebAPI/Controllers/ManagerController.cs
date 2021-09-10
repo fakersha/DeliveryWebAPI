@@ -24,32 +24,44 @@ namespace DeliveryWebAPI.Controllers
         }
 
         [HttpPost("AddIngredient")]
-        public IActionResult AddIngredient(string ingredient)
+        public async Task<IActionResult> AddIngredientAsync(string ingredient)
         {
             Ingredient Ingredient = new Ingredient() { Name = ingredient };
-            _managerService.AddIngredient(Ingredient);
-            return Ok(new { Status = "Success", Message = "ინგრედიენტი წარმატებით დაემატა!" });
+            var Result = await _managerService.AddIngredient(Ingredient);
+            if (Result)
+            {
+                return Ok(new { Status = "Success", Message = "ინგრედიენტი წარმატებით დაემატა!" });
+            }
+            return BadRequest(new { Status = "Failed", Message = "ინგრედიენტის დამატება ვერ მოხერხდა" });
 
         }
 
         [HttpPost("AddProduct")]
-        public IActionResult AddProduct(ProductModel product)
+        public async Task<IActionResult> AddProductAsync(ProductModel product)
         {
             Category category = _adminService.GetCategoryById(product.categoryId);
             Product Product = new Product() { Name = product.Name, Price = product.Price, category = category };
-            _managerService.AddProduct(Product);
-            return Ok(new { Status = "Success", Message = "პროდუქტი წარმატებით დაემატა!" });
+            var Result = await  _managerService.AddProduct(Product);
+            if (Result)
+            {
+                return Ok(new { Status = "Success", Message = "პროდუქტი წარმატებით დაემატა!" });
+            }
+            return BadRequest(new {Status ="Failed", Message = "როდუქტის დამატება ვერ მოხერხდა!" });
 
         }
 
         [HttpPost("AddIngredientsInProduct")]
-        public IActionResult AddIngredientsInProduct(IngredientsInProductsModel ingredientsInProductsModel)
+        public async Task<IActionResult> AddIngredientsInProductAsync(IngredientsInProductsModel ingredientsInProductsModel)
         {
-            Ingredient ingredient = _managerService.FindIngredientById(ingredientsInProductsModel.ingredientId);
-            Product product = _managerService.FindProductById(ingredientsInProductsModel.productId);
-            ProductWithIngredients productWithIngredients = new ProductWithIngredients() { ingredient = ingredient, product = product};
-            _managerService.AddIngredientsInProduct(productWithIngredients);
-            return Ok(new { Status = "Success", Message = "ინგრედიენტი პროდუქტს წარმატებით დაემატა!" });
+            Ingredient Ingredient = _managerService.FindIngredientById(ingredientsInProductsModel.ingredientId);
+            Product Product = _managerService.FindProductById(ingredientsInProductsModel.productId);
+            ProductWithIngredients productWithIngredients = new ProductWithIngredients() { ingredient = Ingredient, product = Product};
+            var Result = await _managerService.AddIngredientsInProduct(productWithIngredients);
+            if (Result)
+            {
+                return Ok(new { Status = "Success", Message = "ინგრედიენტი პროდუქტს წარმატებით დაემატა!" });
+            }
+            return BadRequest(new { Status = "Failed", Message = "ინგრედიენტის დამატება ვერ მოხერხდა!" });
 
         }
 

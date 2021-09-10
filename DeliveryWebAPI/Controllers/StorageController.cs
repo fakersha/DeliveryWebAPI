@@ -45,8 +45,12 @@ namespace DeliveryWebAPI.Controllers
 
                 var mappedStorageProduct = _mapper.Map<StorageProduct>(model);
                 mappedStorageProduct.Branch = branch;
-                await _storageServices.AddProduct(mappedStorageProduct);
-                return Ok(new { status = "Successful", description = "Product Added" });
+                var Result = await _storageServices.AddProduct(mappedStorageProduct);
+                if (Result)
+                {
+                    return Ok(new { status = "Success", description = "პროდუქტი წარმატებით დაემატა" });
+                }
+                
             }
 
             return BadRequest();

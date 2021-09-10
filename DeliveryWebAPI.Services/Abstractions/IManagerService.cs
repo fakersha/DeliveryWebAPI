@@ -10,11 +10,11 @@ namespace DeliveryWebAPI.Services.Abstractions
 {
     public interface IManagerService
     {
-        void AddIngredient(Ingredient ingredient);
+        Task<bool> AddIngredient(Ingredient ingredient);
 
-        void AddProduct(Product product);
+        Task<bool> AddProduct(Product product);
 
-        void AddIngredientsInProduct(ProductWithIngredients productWithIngredients);
+        Task<bool> AddIngredientsInProduct(ProductWithIngredients productWithIngredients);
 
         Ingredient FindIngredientById(int Id);
 

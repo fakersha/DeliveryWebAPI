@@ -21,18 +21,33 @@ namespace DeliveryWebAPI.Services.Implementations
 
 
 
-        public async Task AddProduct(StorageProduct product)
+        public async Task<bool> AddProduct(StorageProduct product)
         {
-            var result= await _context.Storage.AddAsync(product);
-            await _context.SaveChangesAsync();
+            await _context.Storage.AddAsync(product);
+
+            var Result =  await _context.SaveChangesAsync();
+
+            if (Result > 0 )
+            {
+                return true;
+            }
+            return false;
         }
 
-        public async Task DeleteProduct(int productId)
+        public async Task<bool> DeleteProduct(int productId)
         {
             var DeletedProduct = _context.Storage.FirstOrDefault(product => product.Id == productId);
 
             _context.Storage.Remove(DeletedProduct);
-            var result = await _context.SaveChangesAsync();
+
+            var Result = await _context.SaveChangesAsync();
+            if (Result > 0)
+            {
+                return true;
+            }
+
+            return false;
+
         }
 
         public IQueryable<StorageProduct> GetBranchStorageProducts(int branchId)
